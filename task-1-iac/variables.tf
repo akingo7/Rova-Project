@@ -37,11 +37,6 @@ variable "key_backend" {
 variable "tags" {
   description = "Global tags to assign to all resources"
   type        = map(string)
-  default     = {
-    project     = "rova"
-    environment = "production"
-    owner       = "infrastructure-team"
-  }
 }
 
 variable "region" {
