@@ -1,0 +1,29 @@
+# ==============================================================================
+# Rova & FCMB Health Check Configuration
+# ==============================================================================
+# Global default settings applied to all endpoint checks unless overridden
+settings:
+  max_retries: 3
+  backoff_seconds: 2
+  timeout_seconds: 5
+
+# List of HTTP/HTTPS endpoints to validate
+endpoints:
+  - name: "Rova Digital Banking Platform"
+    url: "https://getrova.com"
+    expected_status: 200
+
+  - name: "FCMB Corporate Portal"
+    url: "https://www.fcmb.com"
+    expected_status: 200
+
+  - name: "FCMB Business Gateway"
+    url: "https://www.fcmb.com/business"
+    expected_status: 200
+    timeout_seconds: 5
+
+  # Included to demonstrate retry backoff and non-zero exit handling
+  - name: "Simulated Down Service (Failure & Retry Test)"
+    url: "https://httpbin.org/status/503"
+    expected_status: 200
+    max_retries: 2
