@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rova Infrastructure</title>
+  <style>
+    :root {
+      --rova-cyan: #00A3FF;
+      --rova-magenta: #E02475;
+      --rova-dark: #0f172a;
+      --bg: #0b0f19;
+      --card-bg: #151c2e;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image: 
+        radial-gradient(at 15% 20%, rgba(0, 163, 255, 0.15) 0px, transparent 40%),
+        radial-gradient(at 85% 80%, rgba(224, 36, 117, 0.15) 0px, transparent 40%);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--rova-cyan), var(--rova-magenta));
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .logo-badge {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 32px;
+    }
+
+    .logo-badge .bar-top {
+      height: 14px;
+      width: 28px;
+      background: var(--rova-cyan);
+      border-radius: 7px 14px 14px 7px;
+    }
+
+    .logo-badge .bar-bottom {
+      height: 14px;
+      width: 28px;
+      background: var(--rova-magenta);
+      border-radius: 14px 7px 7px 14px;
+      margin-left: 4px;
+    }
+
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1.5rem;
+    }
+
+    .meta-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+    .meta-label {
+      color: var(--text-secondary);
+    }
+
+    .meta-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #34d399;
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: rgba(52, 211, 153, 0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(52, 211, 153, 0.2);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: #34d399;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #34d399;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="logo-badge">
+        <div class="bar-top"></div>
+        <div class="bar-bottom"></div>
+      </div>
+      <div>
+        <h1 class="brand-title">ROVA</h1>
+        <p class="subtitle">Cloud & Infrastructure Assessment</p>
+      </div>
+    </div>
+
+    <div class="meta-list">
+      <div class="meta-item">
+        <span class="meta-label">Application Status</span>
+        <span class="status-badge">
+          <span class="status-dot"></span>
+          Healthy
+        </span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Instance ID</span>
+        <span class="meta-value">__INSTANCE_ID__</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Availability Zone</span>
+        <span class="meta-value">__AVAILABILITY_ZONE__</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Traffic Source</span>
+        <span class="meta-value">Application Load Balancer</span>
+      </div>
+    </div>
+
+    <p class="footer-note">Deployed with Terraform &bull; Multi-AZ Auto-Scaling Group</p>
+  </div>
+</body>
+</html>
