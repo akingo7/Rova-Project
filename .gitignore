@@ -13,9 +13,9 @@
 *.tfvars.json
 !terraform.tfvars.example
 
-# Task 2
-__pycache__/
-.venv/
-venv/
-.pytest_cache/
-.coverage
+# Task 2 (Go)
+bin/
+dist/
+rova-api
+*.test
+*.out
