@@ -38,9 +38,9 @@ variable "tags" {
   description = "Global tags to assign to all resources"
   type        = map(string)
   default     = {
-    Name        = "task-1-iac"
-    Environment = "production"
-    Terraform   = "true"
+    project     = "rova"
+    environment = "production"
+    owner       = "infrastructure-team"
   }
 }
 
