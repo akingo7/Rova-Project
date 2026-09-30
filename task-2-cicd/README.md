@@ -64,6 +64,33 @@ The workflow in [`.github/workflows/pipeline.yml`](../.github/workflows/pipeline
  └───────────────────────┴──────────────────────┘
 ```
 
+### 3. Registry Setup & Management
+
+I configured two target registries running in parallel to give us multi-cloud registry redundancy:
+
+* **AWS Elastic Container Registry (ECR):**
+  * **Repository Name:** `rova-app-registry`
+  * **Region:** `eu-central-1`
+  * **Registry URI:** `<account_id>.dkr.ecr.eu-central-1.amazonaws.com/rova-app-registry`
+  * **CLI Commands (Creation & Teardown):**
+    ```bash
+    # Create the ECR repository with scan-on-push enabled
+    aws --profile aws-cli ecr create-repository \
+      --repository-name rova-app-registry \
+      --region eu-central-1 \
+      --image-scanning-configuration scanOnPush=true
+
+    # Tear down and delete the repository when done
+    aws --profile aws-cli ecr delete-repository \
+      --repository-name rova-app-registry \
+      --region eu-central-1 \
+      --force
+    ```
+
+* **GitHub Container Registry (GHCR):**
+  * **Registry URI:** `ghcr.io/akingo7/rova-app`
+  * **Authentication:** Authenticates automatically via the pipeline's built-in `GITHUB_TOKEN` using `packages: write` permissions.
+
 ---
 
 ## Setup & How to Run
@@ -72,6 +99,7 @@ The workflow in [`.github/workflows/pipeline.yml`](../.github/workflows/pipeline
 * **Docker** installed and running.
 * **Go `>= 1.22`** (only to run unit tests and format locally without Docker).
 * **curl** to test the endpoints.
+* **AWS CLI** configured (if managing or pulling directly from AWS ECR).
 
 ---
 
@@ -179,5 +207,6 @@ In real-world operations, the deployment should never be done directly from a br
 ## Assumptions
 
 * The container listens on port `8080`, configurable via the `PORT` environment variable.
-* AWS credentials for pushing to ECR are stored in GitHub Repository Secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, and `ECR_REPOSITORY`).
+* AWS credentials for pushing to ECR are stored in GitHub Repository Secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_ACCOUNT_ID`, and `AWS_REGION`).
+* The target ECR repository is `rova-app-registry` in `eu-central-1`.
 * GitHub Container Registry pushes use the built-in `${{ secrets.GITHUB_TOKEN }}` with `packages: write` permissions.
