@@ -88,6 +88,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: scan
+    if: github.event_name == 'push'
     steps:
       - name: Download Docker Image from Artifacts
         uses: actions/download-artifact@v4
