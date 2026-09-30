@@ -1,5 +1,5 @@
 # Stage 1: Build static binary
-FROM golang:1.24-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY app/*.go ./
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o rova-api .
 
 # Stage 2: Minimal non-root runtime
-FROM alpine:3.20
+FROM alpine:3.24
 
 # Create non-root user
 RUN addgroup -g 10001 -S appgroup && \
