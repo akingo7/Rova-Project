@@ -66,6 +66,7 @@ jobs:
 
   scan:
     runs-on: ubuntu-latest
+    name: Scan Docker Image for Vulnerabilities
     needs: build
     steps:
       - name: Download Docker Image from Artifacts
@@ -87,6 +88,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    name: Deploy to AWS ECR
     needs: scan
     if: github.event_name == 'push'
     steps:
@@ -124,3 +126,40 @@ jobs:
             
           docker push \
             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+
+  deploy-ghcr:
+    runs-on: ubuntu-latest
+    name: Deploy to GitHub Container Registry
+    needs: scan
+    if: github.event_name == 'push'
+    steps:
+      - name: Download Docker Image from Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: rova-app-image
+
+      - name: Load Docker Image
+        run: docker load -i rova-app.tar
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag and push Docker image to GHCR
+        run: |
+          docker tag \
+            ${{ env.IMAGE_NAME }}:latest \
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+
+          docker tag \
+            ${{ env.IMAGE_NAME }}:latest \
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          
+          docker push \
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+
+          docker push \
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
