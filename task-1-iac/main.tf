@@ -1,3 +1,8 @@
+import {
+  to = aws_s3_bucket.rova_backend
+  id = var.bucket_name_backend
+}
+
 resource "aws_s3_bucket" "rova_backend" {
   bucket = var.bucket_name_backend
 

@@ -25,7 +25,7 @@ data "aws_availability_zones" "available" {
 variable "bucket_name_backend" {
   description = "Name of the S3 bucket for backend"
   type        = string
-  default     = "rova-project-bucket"
+  default     = "rova-sept-production-bucket"
 }
 
 variable "key_backend" {
