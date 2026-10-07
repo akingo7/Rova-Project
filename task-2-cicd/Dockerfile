@@ -10,7 +10,7 @@ COPY app/*.go ./
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o rova-api .
 
 # Stage 2: Minimal non-root runtime
-FROM alpine:3.24
+FROM alpine:3.24.2
 
 # Create non-root user
 RUN addgroup -g 10001 -S appgroup && \
