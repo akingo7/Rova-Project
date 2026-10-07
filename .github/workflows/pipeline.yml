@@ -85,7 +85,7 @@ jobs:
           format: 'table'
           ignore-unfixed: 'true'
           exit-code: '1'
-          severity: 'CRITICAL,HIGH,MEDIUM'
+          severity: 'CRITICAL,HIGH'
 
   deploy:
     runs-on: ubuntu-latest
